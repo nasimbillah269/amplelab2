@@ -282,7 +282,10 @@
       </div>
       @endforeach
     </div>
-    <a href="{{ route('pageView', 'all-brands') }}" class="btn-al-primary d-inline-block mt-4">View All Brands</a>
+    @php($brandsPage = pageTemplate('All Brands'))
+    @if($brandsPage)
+    <a href="{{ route('pageView', $brandsPage->slug) }}" class="btn-al-primary d-inline-block mt-4">View All Brands</a>
+    @endif
   </div>
 
 </section>
