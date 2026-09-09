@@ -1,0 +1,702 @@
+/* ==========================================================================
+   Nuvesta Global LLC - Responsive Enhancements
+   This file handles responsive behavior across ALL screen sizes.
+   It does NOT modify any desktop design — only adds media query overrides.
+   ========================================================================== */
+
+/* ==========================================================================
+   GLOBAL: Prevent horizontal scroll on all devices
+   ========================================================================== */
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip; /* clip prevents horizontal scroll WITHOUT breaking position: sticky on the navbar */
+}
+
+/* All images should never exceed their container - EXCEPT about section images
+   which use specific width/height: 100% with object-fit: contain */
+
+
+/* Preserve About section image sizing from style.css */
+.about-img-circle-lg img,
+.about-img-circle-sm img {
+    max-width: none;
+}
+
+/* ==========================================================================
+   Responsive About Section Images (All Breakpoints)
+   Ensures overlapping circles design is pixel-perfect from 320px to 4K.
+   ========================================================================== */
+.about-image-layout {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    height: auto !important;
+    aspect-ratio: 500 / 480 !important;
+    margin: 0 auto !important;
+    display: block !important;
+}
+
+.about-img-circle-lg {
+    position: absolute !important;
+    width: 76% !important;
+    /* 380px / 500px = 76% */
+    height: 79.166% !important;
+    /* 380px / 480px = 79.166% */
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.about-img-circle-lg img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    position: relative !important;
+    border-radius: 0 !important;
+    /* Prevent clipping */
+}
+
+.about-img-circle-sm {
+    position: absolute !important;
+    width: 46% !important;
+    /* 230px / 500px = 46% */
+    height: 47.916% !important;
+    /* 230px / 480px = 47.916% */
+    bottom: 2.083% !important;
+    /* 10px / 480px = 2.083% */
+    right: 8% !important;
+    /* 40px / 500px = 8% */
+    z-index: 5 !important;
+}
+
+.about-img-circle-sm img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    position: absolute !important;
+    margin-top: -33.217% !important;
+    margin-left: 16.783% !important;
+    /* user adjusted value */
+    border-radius: 0 !important;
+    /* Prevent clipping */
+}
+
+/* ==========================================================================
+   LARGE DESKTOPS / ULTRA-WIDE (min-width: 1400px)
+   Keep layout centered, prevent oversizing on 2K/4K monitors
+   ========================================================================== */
+@media (min-width: 1400px) {
+
+    /* Prevent Why Trust circle/title from overflowing col-lg-5 */
+    .why-trust-img-wrap {
+        margin-left: clamp(200px, 55%, 260px);
+    }
+
+    .why-trust-title {
+        margin-left: clamp(240px, 60%, 300px);
+    }
+}
+
+/* ==========================================================================
+   STANDARD DESKTOPS (1200px - 1399px)
+   ========================================================================== */
+@media (min-width: 1200px) and (max-width: 1399px) {
+
+    .why-trust-img-wrap {
+        margin-left: 100px !important;
+    }
+
+    .why-trust-title {
+        margin-left: 130px !important;
+    }
+}
+
+/* ==========================================================================
+   LAPTOPS / SMALL DESKTOPS (992px - 1199px)
+   Scale down fixed-pixel elements proportionally
+   ========================================================================== */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    .about-heading {
+        font-size: 32px;
+    }
+
+    /* Why Trust section - adjust margins for narrower col-lg-5 */
+    .why-trust-img-wrap {
+        width: 200px;
+        height: 200px;
+        margin-left: 50px !important;
+    }
+
+    .why-trust-title {
+        font-size: 20px;
+        margin-left: 80px !important;
+    }
+
+    .gomenew {
+        font-size: 18px;
+    }
+
+    /* Product slider arrows closer to edges */
+    .prod-line-slider-wrap {
+        padding: 0 50px;
+    }
+
+    .prod-slider-btn.prev {
+        left: -10px;
+    }
+
+    .prod-slider-btn.next {
+        right: -10px;
+    }
+}
+
+/* ==========================================================================
+   TABLETS (max-width: 991px)
+   ========================================================================== */
+@media (max-width: 991px) {
+    /* Mobile Offcanvas Customization */
+    #mainNavbar.offcanvas-lg {
+        width: 75vw !important; /* Match mockup partial width */
+        max-width: 350px;
+        background-color: #000000 !important; /* Dark background */
+        color: #ffffff !important;
+    }
+
+    #mainNavbar.offcanvas-lg .offcanvas-header {
+        border-bottom: 1px solid #1a2530 !important;
+        padding: 20px 25px;
+    }
+    
+    #mainNavbar.offcanvas-lg .offcanvas-title {
+        color: #ffffff !important;
+    }
+
+    #mainNavbar .offcanvas-body {
+        padding: 0;
+    }
+    
+    #mainNavbar .navbar-nav {
+        align-items: flex-start !important; /* Left alignment for all links */
+        text-align: left;
+        width: 100%;
+    }
+
+    #mainNavbar .navbar-nav .nav-item {
+        width: 100%;
+        border-bottom: 1px solid #1a2530; /* Dark blue/gray separator */
+    }
+
+    #mainNavbar .navbar-nav .nav-link {
+        color: #ffffff !important; /* White text */
+        padding: 18px 25px !important; /* Spacing */
+        font-size: 16px;
+    }
+
+    #mainNavbar .navbar-nav .nav-item-cta {
+        padding: 25px;
+        border-bottom: none;
+    }
+
+    .about-heading {
+        font-size: 30px;
+    }
+
+    .about-nuvesta-section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    /* Slider Image - Maintain height for text */
+    .hero-slide-img {
+        min-height: 350px;
+        object-fit: cover !important;
+    }
+
+    .top-bar-link {
+        margin-right: 15px;
+        font-size: 12px;
+    }
+
+    /* Product section adjustments */
+    .prod-line-title {
+        font-size: 34px;
+    }
+
+    .prod-line-slider-wrap {
+        padding: 0 40px;
+    }
+
+    /* Video banner height */
+    .video-banner-section {
+        height: 350px;
+    }
+
+    /* Certifications - slightly smaller */
+    .cert-img.bsci,
+    .cert-img.sedex,
+    .cert-img.wrap,
+    .cert-img.oeko,
+    .cert-img.iso {
+        height: 100px;
+    }
+
+    /* Testimonials */
+    .testimonials-section .section-title {
+        font-size: 32px;
+    }
+
+    /* Brands */
+    .brands-section-title {
+        font-size: 28px;
+    }
+}
+
+
+/* ==========================================================================
+   SMALL TABLETS / LARGE PHONES (max-width: 767px)
+   ========================================================================== */
+@media (max-width: 767px) {
+
+    /* Hero section */
+    .hero-slide-img {
+        min-height: 300px;
+    }
+
+    .hero-tag {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .hero-title {
+        margin-bottom: 12px;
+    }
+
+    .hero-cta-btn {
+        font-size: 10px;
+        padding: 8px 16px;
+    }
+
+    .hero-bottom-bar {
+        height: 18px;
+    }
+
+    .about-heading {
+        font-size: 26px;
+    }
+
+    .about-nuvesta-section {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    /* Services title */
+    .svc-title {
+        font-size: 28px;
+    }
+
+    /* Why Trust section */
+    .why-trust-img-wrap {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 20px auto !important;
+    }
+
+    .why-trust-img-wrap img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .why-trust-title {
+        font-size: 20px;
+        margin-left: 0 !important;
+        text-align: center;
+    }
+
+    .gomenew {
+        font-size: 17px;
+    }
+
+    .trust-num-img,
+    .trust-text-img {
+        height: 42px;
+    }
+
+    /* Product line section */
+    .prod-line-section {
+        padding: 50px 0;
+    }
+
+    .prod-line-title {
+        font-size: 28px;
+    }
+
+    .prod-line-slider-wrap {
+        padding: 0 15px;
+    }
+
+    /* Video banner */
+    .video-banner-section {
+        height: 280px;
+        background-attachment: scroll;
+    }
+
+    .video-play-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 26px;
+    }
+
+    /* Certifications */
+    .cert-dest-section {
+        padding: 50px 0;
+    }
+
+    .cd-title {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+        padding: 50px 0;
+    }
+
+    .testimonials-section .section-title {
+        font-size: 28px;
+    }
+
+    /* Brands */
+    .brands-section {
+        padding: 50px 0;
+    }
+
+    .brands-section-title {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    /* CTA */
+    .cta-section {
+        padding: 40px 0;
+    }
+
+    /* Footer */
+    .footer-top-wrap {
+        padding: 50px 0 40px 0;
+    }
+
+    .footer-qr-code-img {
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .section-padding {
+        padding: 50px 0;
+    }
+}
+
+/* ==========================================================================
+   MOBILE PHONES (max-width: 575px)
+   ========================================================================== */
+@media (max-width: 575px) {
+
+    /* Hero */
+    .hero-slide-img {
+        min-height: 250px;
+    }
+
+    .hero-tag {
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
+    .hero-title {
+        margin-bottom: 10px;
+    }
+
+    .hero-text-col {
+        padding-left: 15px;
+        padding-top: 0px;
+    }
+
+    .about-heading {
+        font-size: 24px;
+    }
+
+    .about-desc {
+        font-size: 13px;
+    }
+
+    /* Stats */
+    .stat-item {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 140px;
+        padding: 15px 12px;
+    }
+
+    .stat-icon-wrap img {
+        height: 32px;
+    }
+
+    .stat-info h3 {
+        font-size: 18px;
+    }
+
+    .stat-info p {
+        font-size: 10px;
+    }
+
+    /* Services */
+    .svc-section {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .svc-title {
+        font-size: 24px;
+    }
+
+    .svc-card {
+        padding: 18px 12px;
+        min-width: 140px;
+    }
+
+    /* Why Trust */
+    .why-trust-img-wrap {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 15px auto !important;
+    }
+
+    .why-trust-img-wrap img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .why-trust-title {
+        font-size: 18px;
+        margin-left: 0 !important;
+        text-align: center;
+    }
+
+    .wt-section-bg {
+        object-position: center !important;
+    }
+
+    .gomenew {
+        font-size: 15px;
+    }
+
+    .trust-num-img,
+    .trust-text-img {
+        height: 38px;
+    }
+
+    /* Product line */
+    .prod-line-header {
+        margin-bottom: 30px;
+    }
+
+    .prod-line-subtitle {
+        font-size: 15px;
+    }
+
+    .prod-line-title {
+        font-size: 24px;
+    }
+
+    .prod-slide-wrap {
+        padding: 10px 10px;
+    }
+
+    /* Video */
+    .video-banner-section {
+        height: 220px;
+    }
+
+    .video-play-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 22px;
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Certs */
+    .cert-img.bsci,
+    .cert-img.sedex,
+    .cert-img.wrap,
+    .cert-img.oeko,
+    .cert-img.iso {
+        height: 60px;
+    }
+
+    .cert-logo-row-1,
+    .cert-logo-row-2 {
+        gap: 12px;
+    }
+
+    /* Testimonials */
+    .testimonial-card-top-stripes {
+        height: 110px;
+    }
+
+    .testimonial-avatar-container {
+        width: 80px;
+        height: 80px;
+        margin-top: -40px;
+        margin-bottom: 18px;
+    }
+
+    .testimonial-quote-text {
+        font-size: 11px;
+        min-height: 60px;
+        margin-bottom: 20px;
+    }
+
+    /* Brands */
+    .brand-logo-circle {
+        width: 80px;
+        height: 80px;
+        padding: 12px;
+    }
+
+    /* CTA */
+    .cta-card {
+        padding: 25px 15px;
+    }
+
+    .cta-title {
+        font-size: 18px;
+    }
+
+    .cta-btn {
+        font-size: 13px;
+        padding: 12px 25px;
+    }
+
+    /* Footer */
+    .footer-col h4 {
+        font-size: 16px;
+        margin-bottom: 18px;
+    }
+
+    .footer-top-wrap {
+        padding: 40px 0 30px 0;
+    }
+
+    .footer-bottom {
+        font-size: 11px;
+        padding: 15px 0;
+    }
+}
+
+/* ==========================================================================
+   EXTRA SMALL PHONES (max-width: 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+
+    /* Hero */
+    .hero-slide-img {
+        min-height: 200px;
+    }
+
+    .hero-tag {
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .hero-title {
+        font-size: 9px !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .hero-cta-btn {
+        font-size: 9px;
+        padding: 6px 14px;
+    }
+
+    .hero-bottom-bar {
+        height: 14px;
+    }
+
+    .about-heading {
+        font-size: 22px;
+    }
+
+    /* Testimonials */
+    .testimonials-section .section-title {
+        font-size: 24px;
+    }
+
+    /* Product */
+    .prod-line-title {
+        font-size: 22px;
+    }
+
+    .prod-line-section {
+        padding: 40px 0;
+    }
+}
+
+/* ==========================================================================
+   SMALLEST PHONES (max-width: 360px)
+   ========================================================================== */
+@media (max-width: 360px) {
+
+    .hero-slide-img {
+        min-height: 180px;
+    }
+
+    .hero-tag {
+        font-size: 18px;
+        margin-bottom: 3px;
+    }
+
+    .hero-title {
+        font-size: 8px !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+
+    .hero-cta-btn {
+        font-size: 8px;
+        padding: 5px 12px;
+    }
+
+    .about-heading {
+        font-size: 20px;
+    }
+
+    .stat-item {
+        padding: 12px 10px;
+    }
+
+    .stat-icon-wrap img {
+        height: 28px;
+    }
+
+    .stat-info h3 {
+        font-size: 16px;
+    }
+
+    .top-bar-link {
+        font-size: 10px;
+        margin-right: 8px;
+    }
+
+    .social-icons a {
+        margin-left: 8px;
+        font-size: 12px;
+    }
+
+    .navbar-brand img {
+        height: 36px;
+    }
+}

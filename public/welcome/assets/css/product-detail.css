@@ -1,0 +1,781 @@
+/* ==========================================================================
+   Nuvesta Product Details - Minimal Flat Styling System
+   Font Family: Poppins (Google Fonts)
+   Architecture: Modular, BEM-inspired scalable classes
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design System & CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+  --color-primary: #00a8b5;
+  --color-primary-hover: #008894;
+  --color-dark: #111111;
+  --color-slate-800: #18181b;
+  --color-slate-700: #27272a;
+  --color-slate-600: #52525b;
+  --color-slate-500: #71717a;
+  --color-slate-400: #a1a1aa;
+  --color-slate-300: #d4d4d8;
+  --color-slate-200: #e4e4e7;
+  --color-slate-100: #f4f4f5;
+  --color-bg-light: #fafafa;
+  --color-white: #ffffff;
+  --color-red: #ef4444;
+  
+  --font-family: 'Poppins', sans-serif;
+  --border-flat: 1px solid var(--color-slate-200);
+  --border-dark: 1px solid var(--color-dark);
+  --transition-smooth: all 0.3s ease-in-out;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+/* Global Reset & Typography */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-light);
+  color: var(--color-slate-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   2. Page Container & Breadcrumbs
+   -------------------------------------------------------------------------- */
+.detail-page-wrapper {
+  padding-top: 1.5rem;
+  padding-bottom: 4rem;
+}
+
+.detail-breadcrumb-card {
+  background-color: var(--color-white);
+  border: var(--border-flat);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.75rem;
+  padding: 10px 10px;
+}
+
+.detail-breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--color-slate-500);
+}
+
+.detail-breadcrumb-link {
+  color: var(--color-slate-600);
+  transition: var(--transition-smooth);
+}
+
+.detail-breadcrumb-link:hover {
+  color: var(--color-primary);
+}
+
+.detail-breadcrumb-separator {
+  margin: 0 0.2rem;
+  color: var(--color-slate-400);
+  font-size: 0.7rem;
+}
+
+.detail-breadcrumb-item.active {
+  color: var(--color-dark);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   3. Main Product Details Layout Card
+   -------------------------------------------------------------------------- */
+.detail-main-card {
+  background-color: var(--color-white);
+  border: var(--border-flat);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. Gallery & Media Column (Left)
+   -------------------------------------------------------------------------- */
+.detail-media-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.detail-main-stage {
+  position: relative;
+  width: 100%;
+  padding-top: 125%;
+  overflow: hidden;
+  background-color: var(--color-slate-100);
+  border: var(--border-flat);
+}
+
+.detail-stage-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.detail-video-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 3;
+  background-color: var(--color-white);
+  color: var(--color-dark);
+  border: var(--border-flat);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.detail-video-btn:hover {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+}
+
+.detail-thumb-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.detail-thumb-box {
+  position: relative;
+  width: 100%;
+  padding-top: 120%;
+  overflow: hidden;
+  border: 1px solid var(--color-slate-200);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  background-color: var(--color-slate-100);
+}
+
+.detail-thumb-box:hover,
+.detail-thumb-box.active {
+  border-color: var(--color-primary);
+}
+
+.detail-thumb-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   5. Main Info Column (Right)
+   -------------------------------------------------------------------------- */
+.detail-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detail-title-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.75rem;
+  border-bottom: var(--border-flat);
+}
+
+.detail-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.detail-prod-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.detail-prod-code {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.detail-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--color-slate-100);
+  color: var(--color-primary);
+  border: 1px solid var(--color-slate-200);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.detail-action-icon-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.detail-subtitle-spec {
+  font-size: 0.85rem;
+  color: var(--color-slate-600);
+  font-weight: 500;
+}
+
+.detail-subtitle-spec span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-slate-500);
+}
+
+/* Color Swatches Selector */
+.detail-option-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detail-option-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-option-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.detail-swatch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.detail-swatch-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--color-slate-300);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.detail-swatch-btn:hover,
+.detail-swatch-btn.active {
+  transform: scale(1.25);
+  border-color: var(--color-dark);
+}
+
+/* Size Selector Grid */
+.detail-size-guide-link {
+  font-size: 0.8rem;
+  color: var(--color-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.detail-size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.detail-size-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--color-slate-100);
+  border: 1px solid var(--color-slate-200);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-slate-700);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.detail-size-btn:hover {
+  background-color: var(--color-slate-200);
+  color: var(--color-dark);
+}
+
+.detail-size-btn.active {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  border-color: var(--color-dark);
+}
+
+.detail-size-note {
+  font-size: 0.72rem;
+  color: var(--color-slate-500);
+  font-style: italic;
+}
+
+/* Teal Price Callout Banner */
+.detail-price-banner {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.85rem 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.detail-price-banner:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.detail-price-banner-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.detail-price-banner-sub {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.9;
+  display: block;
+}
+
+/* Doc Pill Actions (User Customized) */
+.detail-docs-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.detail-doc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-700);
+  border: 1px solid var(--color-slate-200);
+  border-radius: 2px;
+  padding: 0.45rem 0.95rem;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.detail-doc-pill:hover {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+}
+
+/* --------------------------------------------------------------------------
+   6. Short Description Section
+   -------------------------------------------------------------------------- */
+.detail-short-desc {
+  border-top: var(--border-flat);
+  padding-top: 1rem;
+}
+
+.detail-short-desc-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.detail-short-desc-text {
+  font-size: 0.825rem;
+  color: var(--color-slate-600);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Social Media Sharing Row
+   -------------------------------------------------------------------------- */
+.detail-social-share-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-top: var(--border-flat);
+  padding-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.detail-social-label {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.detail-social-icons-list {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-social-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-700);
+  border: 1px solid var(--color-slate-200);
+  font-size: 0.85rem;
+  transition: var(--transition-smooth);
+}
+
+.detail-social-icon-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Full Details Tabbed Section (Spacious Modern Design)
+   -------------------------------------------------------------------------- */
+.detail-tabs-wrapper {
+  background-color: var(--color-white);
+  border: var(--border-flat);
+  border-radius: var(--radius-md);
+  margin-top: 2.5rem;
+  margin-bottom: 3rem;
+  padding: 2rem 2.25rem;
+}
+
+.detail-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-bottom: 2px solid var(--color-slate-200);
+  margin-bottom: 2rem;
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.detail-tab-item {
+  margin-bottom: -2px;
+}
+
+.detail-tab-btn {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-slate-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 0.5rem 1rem 0.5rem;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: var(--transition-smooth);
+}
+
+.detail-tab-btn:hover {
+  color: var(--color-dark);
+}
+
+.detail-tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.detail-tab-content-box {
+  padding-top: 0.5rem;
+}
+
+.detail-tab-paragraph {
+  font-size: 0.9rem;
+  color: var(--color-slate-600);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+/* Spacious Tables Styling */
+.detail-data-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.detail-data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-data-table th,
+.detail-data-table td {
+  border: var(--border-flat);
+  padding: 0.95rem 1.25rem;
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+.detail-data-table th {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.detail-data-table tbody tr {
+  transition: var(--transition-smooth);
+}
+
+.detail-data-table tbody tr:hover {
+  background-color: var(--color-slate-100);
+}
+
+.detail-data-table td {
+  color: var(--color-slate-700);
+}
+
+.detail-data-table-label {
+  font-weight: 600;
+  color: var(--color-dark);
+  width: 30%;
+  background-color: var(--color-slate-100);
+}
+
+/* --------------------------------------------------------------------------
+   9. Related Products Section Cards (Pixel Perfect Match to Catalog)
+   -------------------------------------------------------------------------- */
+.detail-related-section {
+  margin-top: 3rem;
+}
+
+.detail-related-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* Card Anchor & Structure */
+.prod-card-anchor {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+
+.prod-card {
+  background-color: var(--color-white);
+  border: var(--border-flat);
+  border-radius: 0;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+}
+
+.prod-card-anchor:hover .prod-card {
+  border-color: var(--color-dark);
+}
+
+/* Media Box Aspect Ratio (Tall Portrait ~ 130%) */
+.prod-media-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 130%;
+  overflow: hidden;
+  background-color: var(--color-slate-100);
+}
+
+.prod-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.prod-image-primary {
+  opacity: 1;
+  z-index: 1;
+}
+
+.prod-image-secondary {
+  opacity: 0;
+  z-index: 2;
+}
+
+.prod-card-anchor:hover .prod-image-primary {
+  opacity: 0;
+}
+
+.prod-card-anchor:hover .prod-image-secondary {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.prod-badge-pill {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 3;
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.85rem;
+  border-radius: 30px;
+  line-height: 1.2;
+}
+
+.prod-brand-watermark {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 1.4rem;
+  pointer-events: none;
+}
+
+.prod-content-body {
+  padding: 1rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.prod-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.prod-code {
+  color: var(--color-primary);
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.prod-title {
+  color: var(--color-dark);
+  font-weight: 300;
+  font-size: 15px;
+  text-transform: uppercase;
+  margin: 0;
+  transition: var(--transition-smooth);
+}
+
+.prod-card-anchor:hover .prod-title {
+  color: var(--color-primary);
+}
+
+.prod-subtitle {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #5f5f67f0;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
+
+.prod-specs-info {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--color-slate-500);
+  font-weight: 400;
+}
+
+/* 5-Column helper rule */
+@media (min-width: 992px) {
+  .col-lg-2-4 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Responsive Design Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  .detail-main-card,
+  .detail-tabs-wrapper {
+    padding: 1.25rem 1rem;
+  }
+  
+  .detail-nav-tabs {
+    gap: 1rem;
+  }
+}

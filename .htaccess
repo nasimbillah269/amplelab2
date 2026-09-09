@@ -1,0 +1,99 @@
+# ============================================================================
+#  Production .htaccess  (project-root document root, cPanel / Apache / LiteSpeed)
+# ----------------------------------------------------------------------------
+#  This app is served with the DOCUMENT ROOT pointed at the project root
+#  (the folder that contains this file), NOT at /public.
+#
+#  Blade templates build asset URLs WITHOUT the "public/" segment
+#  (e.g. /assets/css/style.css, /medies/xxx.jpg, /admin/app-assets/...).
+#  The physical files live under /public. The rewrite block below maps any
+#  request that matches a real file inside /public to that file, so every
+#  CSS / JS / image / font / upload loads correctly with the existing paths.
+#
+#  If you instead point the domain's Document Root directly at the /public
+#  folder, this file is ignored and public/.htaccess takes over - the app
+#  still works with no code change.
+# ============================================================================
+
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # --- Hard block: never serve framework internals or dotfiles -------------
+    RewriteRule ^(?:\.env|\.git|\.htaccess|\.user\.ini|php\.ini)  - [F,L,NC]
+    RewriteRule ^(?:app|bootstrap|config|database|resources|routes|tests|vendor)(?:/|$)  - [F,L,NC]
+    RewriteRule ^storage/(?:framework|logs)(?:/|$)  - [F,L,NC]
+    RewriteRule (?:^|/)\.(?!well-known)  - [F,L]
+
+    # --- Preserve Authorization header (API / Sanctum) ----------------------
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # --- Redirect trailing slashes if not a directory ----------------------
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # --- Map static assets located in /public directory --------------------
+    # Serves real static assets (css, js, images, fonts) directly from /public
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(assets|app-assets|medies|admin|welcome|flag|fonts|tinymce|storage|favicon\.ico|robots\.txt)(.*)$ public/$1$2 [L,NC]
+
+    # --- Route all other requests through root index.php -------------------
+    # Using root index.php preserves correct baseUrl in root or subfolder setups
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# --- Portable belt-and-braces block (works even if mod_rewrite is off) ----
+<FilesMatch "(?i)^(\.env.*|\.git.*|\.gitignore|\.gitattributes|\.editorconfig|\.user\.ini|composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml.*|vite\.config\.js|.*\.md|.*\.sh|error_log|.*\.bak|.*\.sql)$">
+    Require all denied
+</FilesMatch>
+
+# --- Do not expose the PHP built-in-server shim to the web ---------------
+<Files "server.php">
+    Require all denied
+</Files>
+
+# --- Static asset caching / compression (safe, no behaviour change) ------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/rss+xml image/svg+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject application/x-font-ttf font/opentype
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css                 "access plus 1 year"
+    ExpiresByType application/javascript    "access plus 1 year"
+    ExpiresByType text/javascript           "access plus 1 year"
+    ExpiresByType image/jpeg                "access plus 1 year"
+    ExpiresByType image/png                 "access plus 1 year"
+    ExpiresByType image/gif                 "access plus 1 year"
+    ExpiresByType image/webp                "access plus 1 year"
+    ExpiresByType image/svg+xml             "access plus 1 year"
+    ExpiresByType image/x-icon              "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType font/ttf                  "access plus 1 year"
+    ExpiresByType font/otf                  "access plus 1 year"
+    ExpiresByType font/woff                 "access plus 1 year"
+    ExpiresByType font/woff2                "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|otf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
