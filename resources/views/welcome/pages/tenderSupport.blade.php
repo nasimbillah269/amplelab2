@@ -123,7 +123,9 @@
     padding:12px 30px;
     font-weight:600;
 }
-
+.cta h2 {
+    color: #fff;
+}
     
 
 .breadcrumb-area {
