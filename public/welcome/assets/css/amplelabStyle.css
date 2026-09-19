@@ -89,7 +89,7 @@
   .navbar-al .nav-link{
     color:var(--al-text);
     font-weight:500;
-    font-size: 12px;
+    font-size: 15px !important;
     padding:10px 14px !important;
   }
   .navbar-al .nav-link.active{
@@ -384,6 +384,7 @@
   }
   .badge-ready{background:#e4f6ec; color:#1c8a4f;}
   .badge-pre{background:#fdf0da; color:#c8811a;}
+  .badge-out{background:#fbe4e4; color:#c02929;}
 
   .product-card .body{
     padding:14px 14px 8px;
@@ -426,6 +427,9 @@
     gap:8px;
   }
   .product-card .price-btn:hover{background:var(--al-green-hover);}
+  .product-card .price-btn.price-value{gap:6px; cursor:default; white-space:nowrap; padding:.55rem 6px; font-size:.8rem; overflow:hidden;}
+  .product-card .price-btn.price-value:hover{background:var(--al-dark);}
+  .product-card .price-btn.price-value .price-strike{font-size:.7rem; font-weight:400; color:#c9d3cf; margin:0;}
 
   /* ===== Info strip ===== */
   .info-strip{

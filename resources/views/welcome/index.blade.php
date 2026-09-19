@@ -173,11 +173,16 @@
             @foreach($featuresProducts as $product)
 
                 @php
-                    $stockType = $product->stock_status ?? 'ready';
+                    $stockType = match(true) {
+                        is_null($product->stock_status) => 'ready',
+                        (int) $product->stock_status === 2 => 'preorder',
+                        (int) $product->stock_status === 0 => 'out_of_stock',
+                        default => 'ready',
+                    };
                 @endphp
 
                 <div class="col-6 col-md-4 col-lg-2 product-item"
-                     data-stock="{{ strtolower($stockType) }}"
+                     data-stock="{{ $stockType }}"
                      data-name="{{ strtolower($product->title ?? $product->name ?? '') }}">
 
                     @include(welcomeTheme().'products.includes.productCard')

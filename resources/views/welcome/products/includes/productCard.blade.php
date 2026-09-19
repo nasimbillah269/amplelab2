@@ -29,7 +29,16 @@
             
             <div class="product-card">
           <a href="{{ route('productView',$product->slug?:Str::slug($product->name)) }}" class="thumb">
-            <span class="badge-status badge-ready">READY STOCK</span>
+            @php
+              $rawStock = $product->stock_status;
+              $stockBadge = match(true) {
+                is_null($rawStock) => ['label' => 'READY STOCK', 'class' => 'badge-ready'],
+                (int) $rawStock === 2 => ['label' => 'PRE ORDER', 'class' => 'badge-pre'],
+                (int) $rawStock === 0 => ['label' => 'OUT OF STOCK', 'class' => 'badge-out'],
+                default => ['label' => 'READY STOCK', 'class' => 'badge-ready'],
+              };
+            @endphp
+            <span class="badge-status {{ $stockBadge['class'] }}">{{ $stockBadge['label'] }}</span>
             <img src="{{ assetUrl($product->image()) }}" alt="Computer Workstation">
           </a>
           <div class="body">
@@ -39,5 +48,15 @@
             <a href="#">Specification</a>
             <a href="#">Catalog</a>
           </div>
-          <button class="price-btn">Request Price <i class="fa-solid fa-file-lines"></i></button>
+          @if($product->offerPrice() > 0)
+            <div class="price-btn price-value">
+              {{ priceFullFormat($product->offerPrice()) }}/-
+              @if($product->regularPrice() > $product->offerPrice())
+                <del class="price-strike">{{ priceFullFormat($product->regularPrice()) }}/-</del>
+              @endif
+            </div>
+          @else
+            @php $waNumber = preg_replace('/\D+/', '', (string) optional(general())->mobile); @endphp
+            <a href="https://wa.me/{{ $waNumber }}?text={{ urlencode('I am interested in '.$product->name) }}" target="_blank" rel="noopener" class="price-btn">Request Price <i class="fa-brands fa-whatsapp"></i></a>
+          @endif
         </div>

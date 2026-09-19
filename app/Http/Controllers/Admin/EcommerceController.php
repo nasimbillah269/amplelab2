@@ -1103,12 +1103,27 @@ class EcommerceController extends Controller
         }
         
         if($column=='stock_status'){
-          $product->stock_status=$r->data==0?0:1;
+          $product->stock_status=in_array((int)$r->data,[0,1,2])?(int)$r->data:1;
           $product->save();
         }
 
         if($column=='bar_code'){
           $product->bar_code=$r->data?:null;
+          $product->save();
+        }
+
+        if($column=='youtube_link'){
+          $product->youtube_link=$r->data?Str::limit($r->data,255,''):null;
+          $product->save();
+        }
+
+        if($column=='facebook_video_link'){
+          $product->facebook_video_link=$r->data?Str::limit($r->data,255,''):null;
+          $product->save();
+        }
+
+        if($column=='whatsapp_number'){
+          $product->whatsapp_number=$r->data?Str::limit($r->data,50,''):null;
           $product->save();
         }
 

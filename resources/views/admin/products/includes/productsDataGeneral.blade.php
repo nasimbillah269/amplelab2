@@ -71,6 +71,7 @@
 		>
 		    <option value="1" {{$product->stock_status==1?'selected':''}}>Stock In</option>
             <option value="0" {{$product->stock_status==0?'selected':''}}>Out Of Stock</option>
+            <option value="2" {{$product->stock_status==2?'selected':''}}>Pre Order</option>
 		</select>
 		@if ($errors->has('stock_status'))
         <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('stock_status') }}</p>
@@ -133,6 +134,45 @@
         <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('sku_code') }}</p>
         @endif
 	</div>
+</div>
+
+<div class="row">
+	<div class="form-group col-md-4">
+		<label>YouTube Video Link (Optional)</label>
+		<input type="text" name="youtube_link"
+		value="{{$product->youtube_link?:old('youtube_link')}}"
+		data-url="{{route('admin.productsUpdateAjax',['youtube_link',$product->id])}}"
+		class="form-control productDataAjaxUpdate form-control-sm {{$errors->has('youtube_link')?'error':''}}"
+		placeholder="https://youtube.com/watch?v=...">
+		@if ($errors->has('youtube_link'))
+        <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('youtube_link') }}</p>
+        @endif
+	</div>
+	<div class="form-group col-md-4">
+		<label>Facebook Video Link (Optional)</label>
+		<input type="text" name="facebook_video_link"
+		value="{{$product->facebook_video_link?:old('facebook_video_link')}}"
+		data-url="{{route('admin.productsUpdateAjax',['facebook_video_link',$product->id])}}"
+		class="form-control productDataAjaxUpdate form-control-sm {{$errors->has('facebook_video_link')?'error':''}}"
+		placeholder="https://facebook.com/.../videos/...">
+		@if ($errors->has('facebook_video_link'))
+        <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('facebook_video_link') }}</p>
+        @endif
+	</div>
+	<div class="form-group col-md-4">
+		<label>WhatsApp Number (Optional)</label>
+		<input type="text" name="whatsapp_number"
+		value="{{$product->whatsapp_number?:old('whatsapp_number')}}"
+		data-url="{{route('admin.productsUpdateAjax',['whatsapp_number',$product->id])}}"
+		class="form-control productDataAjaxUpdate form-control-sm {{$errors->has('whatsapp_number')?'error':''}}"
+		placeholder="e.g. 8801XXXXXXXXX">
+		@if ($errors->has('whatsapp_number'))
+        <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('whatsapp_number') }}</p>
+        @endif
+	</div>
+</div>
+
+<div class="row">
 	{{--<div class="form-group col-md-12">
 	    <div class="table-responsive">
 	        <table class="table table-bordered">

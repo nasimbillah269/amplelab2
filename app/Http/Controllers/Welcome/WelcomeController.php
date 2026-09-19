@@ -121,19 +121,19 @@ class WelcomeController extends Controller
       ->where('status','active')->where('new_arrival',true)
       ->whereDate('created_at','<=',Carbon::now())
       ->limit(8)
-      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id']);
-      
+      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id','stock_status']);
+
       $bestProducts =Post::latest()->where('type',2)
       ->where('status','active')->where('up_coming',true)
       ->whereDate('created_at','<=',Carbon::now())
       ->limit(8)
-      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id']);
-      
+      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id','stock_status']);
+
       $featuresProducts =Post::latest()->where('type',2)
       ->where('status','active')->where('fetured',true)
       ->whereDate('created_at','<=',Carbon::now())
       ->limit(8)
-      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id']);
+      ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id','stock_status']);
       
       $homeCategories =Attribute::latest()->where('status','active')->where('fetured',true)->where('type',0)->get();
       
@@ -396,7 +396,7 @@ class WelcomeController extends Controller
         
         $relatedProducts = $product->relatedProducts()->limit(5)->get();
       
-        $recommendProducts = Post::latest()->where('type',2)->where('status','active')->whereNotIn('id',[$product->id])->inRandomOrder()->limit(4)->get(['id','name','slug','final_price','regular_price','variation_status','brand_id']);
+        $recommendProducts = Post::latest()->where('type',2)->where('status','active')->whereNotIn('id',[$product->id])->inRandomOrder()->limit(4)->get(['id','name','slug','final_price','regular_price','variation_status','brand_id','stock_status']);
       
         $bannerGroupTwo =PostExtra::latest()->where('type',4)->where('parent_id',null)->where('status','active')
                        ->where('data_type','Banner Ads Group Two')

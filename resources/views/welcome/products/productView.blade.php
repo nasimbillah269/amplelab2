@@ -2023,66 +2023,55 @@ ul.colorList li{
               </div>
 
               <!-- All Social Links Sharing Section -->
-              
+              @php
+                $waNumber = preg_replace('/\D+/', '', (string) ($product->whatsapp_number ?: optional(general())->mobile));
+              @endphp
               <div class="row">
                   <div class="col-md-4">
                <div class="detail-social-share-row">
     <ul class="detail-social-icons-list">
 
+        @if($product->facebook_video_link)
         <!-- Facebook -->
         <li>
-            <a href="#"
+            <a href="{{ $product->facebook_video_link }}"
+               target="_blank" rel="noopener"
                class="detail-social-icon-btn"
-               title="Share on Facebook"
+               title="Watch on Facebook"
                aria-label="Facebook"
                style="background-color:#1877F2; color:#fff;">
                 <i class="fa-brands fa-facebook-f"></i>
             </a>
         </li>
+        @endif
 
+        @if($product->youtube_link)
         <!-- YouTube -->
         <li>
-            <a href="#"
+            <a href="{{ $product->youtube_link }}"
+               target="_blank" rel="noopener"
                class="detail-social-icon-btn"
-               title="YouTube"
+               title="Watch on YouTube"
                aria-label="YouTube"
                style="background-color:#FF0000; color:#fff;">
                 <i class="fa-brands fa-youtube"></i>
             </a>
         </li>
+        @endif
 
-        <!-- X / Twitter -->
-        <li>
-            <a href="#"
-               class="detail-social-icon-btn"
-               title="Share on X (Twitter)"
-               aria-label="X Twitter"
-               style="background-color:#000000; color:#fff;">
-                <i class="fa-brands fa-x-twitter"></i>
-            </a>
-        </li>
-
+        @if($waNumber)
         <!-- WhatsApp -->
         <li>
-            <a href="#"
+            <a href="https://wa.me/{{ $waNumber }}?text={{ urlencode('I am interested in '.$product->name) }}"
+               target="_blank" rel="noopener"
                class="detail-social-icon-btn"
-               title="Share on WhatsApp"
+               title="Chat on WhatsApp"
                aria-label="WhatsApp"
                style="background-color:#25D366; color:#fff;">
                 <i class="fa-brands fa-whatsapp"></i>
             </a>
         </li>
-
-        <!-- LinkedIn -->
-        <li>
-            <a href="#"
-               class="detail-social-icon-btn"
-               title="Share on LinkedIn"
-               aria-label="LinkedIn"
-               style="background-color:#0A66C2; color:#fff;">
-                <i class="fa-brands fa-linkedin-in"></i>
-            </a>
-        </li>
+        @endif
 
     </ul>
 </div>

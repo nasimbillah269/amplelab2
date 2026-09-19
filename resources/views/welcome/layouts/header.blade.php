@@ -45,7 +45,19 @@
             <a href="{{ assetUrl($menu->menuLink()) }}" class="nav-link dropdown-toggle"> {{ $menu->menuName() }} </a>
             <ul class="dropdown-menu">
                 @foreach($menu->subMenus as $subMenu)
-                <li><a href="{{  assetUrl($subMenu->menuLink()) }}" class="dropdown-item"> {{ $subMenu->menuName() }} </a></li>
+                <li class="{{ $subMenu->subMenus->count() ? 'dropdown-submenu' : '' }}">
+                    <a href="{{  assetUrl($subMenu->menuLink()) }}" class="dropdown-item">
+                        {{ $subMenu->menuName() }}
+                        @if($subMenu->subMenus->count())<i class="fa-solid fa-chevron-right submenu-caret"></i>@endif
+                    </a>
+                    @if($subMenu->subMenus->count())
+                    <ul class="dropdown-menu dropdown-submenu-menu">
+                        @foreach($subMenu->subMenus as $subSubMenu)
+                        <li><a href="{{ assetUrl($subSubMenu->menuLink()) }}" class="dropdown-item"> {{ $subSubMenu->menuName() }} </a></li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </li>
                 @endforeach
             </ul>
         </li>
@@ -83,6 +95,84 @@
   @media (min-width: 992px){
     .al-nav-backdrop,
     .al-nav-head{ display:none !important; }
+
+    /* ---- Desktop hover dropdown ---- */
+    .navbar-al .navbar-nav .nav-item.dropdown{ position:relative; }
+    .navbar-al .navbar-nav .nav-item.dropdown > .dropdown-menu{
+      display:block;
+      position:absolute;
+      top:100%; left:0;
+      min-width:220px;
+      background:#fff;
+      border:1px solid var(--al-border, #e5e9e7);
+      border-radius:8px;
+      box-shadow:0 14px 30px rgba(0,0,0,.12);
+      padding:8px 0;
+      margin:0;
+      overflow:visible;
+      animation:none;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(8px);
+      transition:opacity .2s ease, transform .2s ease, visibility .2s ease;
+      z-index:1000;
+    }
+    .navbar-al .navbar-nav .nav-item.dropdown:hover > .dropdown-menu,
+    .navbar-al .navbar-nav .nav-item.dropdown:focus-within > .dropdown-menu{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0);
+    }
+    .navbar-al .navbar-nav .nav-item.dropdown .dropdown-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:.55rem 1.1rem;
+      font-size:.88rem;
+      font-weight:500;
+      color:var(--al-text, #1f2d2a);
+      text-transform:none;
+      white-space:nowrap;
+    }
+    .navbar-al .navbar-nav .nav-item.dropdown .dropdown-item:hover{
+      background:var(--al-bg-soft, #f6f8f7);
+      color:var(--al-green, #0f7a5c);
+      padding-left:1.1rem;
+    }
+    .navbar-al .navbar-nav .submenu-caret{
+      font-size:.65rem;
+      opacity:.55;
+      flex-shrink:0;
+    }
+
+    /* ---- Desktop hover flyout (sub-submenu) ---- */
+    .navbar-al .navbar-nav .dropdown-submenu{ position:relative; }
+    .navbar-al .navbar-nav .dropdown-submenu > .dropdown-submenu-menu{
+      display:block;
+      position:absolute;
+      top:0; left:100%;
+      min-width:200px;
+      background:#fff;
+      border:1px solid var(--al-border, #e5e9e7);
+      border-radius:8px;
+      box-shadow:0 14px 30px rgba(0,0,0,.12);
+      padding:8px 0;
+      margin:0 0 0 4px;
+      overflow:visible;
+      animation:none;
+      opacity:0;
+      visibility:hidden;
+      transform:translateX(8px);
+      transition:opacity .2s ease, transform .2s ease, visibility .2s ease;
+      z-index:1001;
+    }
+    .navbar-al .navbar-nav .dropdown-submenu:hover > .dropdown-submenu-menu,
+    .navbar-al .navbar-nav .dropdown-submenu:focus-within > .dropdown-submenu-menu{
+      opacity:1;
+      visibility:visible;
+      transform:translateX(0);
+    }
   }
 
   @media (max-width: 991.98px){
@@ -181,6 +271,7 @@
       padding:.7rem 20px .7rem 34px;
       font-size:.9rem;
       color:var(--al-ink-soft, #55645f);
+      text-transform:none;
       white-space:normal;
       border-top:1px solid rgba(0,0,0,.05);
       position:relative;
@@ -193,6 +284,30 @@
       background:var(--al-green, #1f7a4d);
     }
     #mainNav .dropdown-menu .dropdown-item:hover{ color:var(--al-green, #1f7a4d); background:rgba(31,122,77,.06); }
+
+    /* ---- Sub-submenu (3rd level) accordion ---- */
+    #mainNav .dropdown-submenu > .dropdown-item{
+      display:flex !important;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    #mainNav .dropdown-submenu .submenu-caret{
+      font-size:.7rem;
+      opacity:.55;
+      transition:transform .25s ease;
+      flex-shrink:0;
+    }
+    #mainNav .dropdown-submenu.is-expanded > .dropdown-item .submenu-caret{
+      transform:rotate(90deg);
+    }
+    #mainNav .dropdown-submenu-menu{
+      max-height:0; overflow:hidden;
+      background:rgba(0,0,0,.03);
+      transition:max-height .3s ease;
+    }
+    #mainNav .dropdown-submenu.is-expanded > .dropdown-submenu-menu{ max-height:600px; }
+    #mainNav .dropdown-submenu-menu .dropdown-item{ padding-left:50px; }
 
     /* ---- CTA button ---- */
     #mainNav .btn-al-primary{
@@ -250,6 +365,21 @@
       });
     });
 
+    /* Accordion for sub-submenus (mobile only) */
+    nav.querySelectorAll('.dropdown-submenu > .dropdown-item').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (!isMobile()) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var item = link.parentElement;
+        var wasOpen = item.classList.contains('is-expanded');
+        item.parentElement.querySelectorAll(':scope > .dropdown-submenu.is-expanded').forEach(function (el) {
+          el.classList.remove('is-expanded');
+        });
+        if (!wasOpen) item.classList.add('is-expanded');
+      });
+    });
+
     /* Close drawer when a real link is tapped */
     nav.addEventListener('click', function (e) {
       if (e.target.closest('a.dropdown-item, a.nav-link:not(.dropdown-toggle), a.btn-al-primary')) closeNav();
@@ -258,7 +388,7 @@
     window.addEventListener('resize', function () {
       if (!isMobile()) {
         closeNav();
-        nav.querySelectorAll('.nav-item.dropdown.is-expanded').forEach(function (el) {
+        nav.querySelectorAll('.nav-item.dropdown.is-expanded, .dropdown-submenu.is-expanded').forEach(function (el) {
           el.classList.remove('is-expanded');
         });
       }
