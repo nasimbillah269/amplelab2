@@ -1,45 +1,44 @@
-<style>
-    ul.pager li {
-    display: inline;
-    padding: 5px;
-    }
-</style>
 @if ($paginator->hasPages())
-    <ul class="pager">
-       
-        @if ($paginator->onFirstPage())
-            <li class="disabled"><span>← Previous</span></li>
-        @else
-            <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">← Previous</a></li>
-        @endif
-
-
-      
-        @foreach ($elements as $element)
-           
-            @if (is_string($element))
-                <li class="disabled"><span>{{ $element }}</span></li>
+    <nav class="al-pagination-wrap" aria-label="Page navigation">
+        <ul class="al-pagination mb-0">
+            {{-- Previous --}}
+            @if (!$paginator->onFirstPage())
+                <li class="al-page-item">
+                    <a class="al-page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="Previous">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
             @endif
 
+            {{-- Pages --}}
+            @foreach ($elements as $element)
+                @if (is_string($element))
+                    <li class="al-page-item al-disabled"><span class="al-page-link al-dots">{{ $element }}</span></li>
+                @endif
 
-           
-            @if (is_array($element))
-                @foreach ($element as $page => $url)
-                    @if ($page == $paginator->currentPage())
-                        <li class="active my-active"><span>{{ $page }}</span></li>
-                    @else
-                        <li><a href="{{ $url }}">{{ $page }}</a></li>
-                    @endif
-                @endforeach
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $paginator->currentPage())
+                            <li class="al-page-item active" aria-current="page">
+                                <span class="al-page-link">{{ $page }}</span>
+                            </li>
+                        @else
+                            <li class="al-page-item">
+                                <a class="al-page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+
+            {{-- Next --}}
+            @if ($paginator->hasMorePages())
+                <li class="al-page-item">
+                    <a class="al-page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="Next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
             @endif
-        @endforeach
-
-
-        
-        @if ($paginator->hasMorePages())
-            <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">Next →</a></li>
-        @else
-            <li class="disabled"><span>Next →</span></li>
-        @endif
-    </ul>
-@endif 
+        </ul>
+    </nav>
+@endif
