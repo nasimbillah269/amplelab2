@@ -26,6 +26,25 @@
     <a class="navbar-brand" href="{{route('index')}}">
          <img src="{{assetUrl(general()->logo())}}" alt="{{general()->title}}">
     </a>
+
+    <div class="al-mobile-search d-lg-none">
+      <div class="al-search-box">
+        <form action="{{ route('search') }}" method="GET" class="al-search-form" autocomplete="off">
+          <input
+            type="text"
+            name="search"
+            class="al-search-input"
+            placeholder="Search products..."
+            value="{{ request()->search }}"
+          >
+          <button type="submit" class="al-search-btn" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        <div class="al-search-results"></div>
+      </div>
+    </div>
+
     <button class="navbar-toggler" type="button" id="navToggler" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,7 +57,7 @@
       </button>
     </div>
     @if($headerMenu = menu('Header Menus'))
-    <ul class="navbar-nav mx-auto my-3 my-lg-0">
+    <ul class="navbar-nav ms-lg-3 my-3 my-lg-0">
         @foreach($headerMenu->subMenus as $menu) @if($menu->subMenus->count())
         <!-- Dropdown Menu -->
         <li class="nav-item dropdown">
@@ -73,7 +92,25 @@
         </li>
         @endif @endforeach
     </ul>
-    @endif <a href="{{ route('pageView', 'request-quotation') }}" class="btn-al-primary"> Request a Quotation </a>
+    @endif
+    <div class="al-nav-right ms-lg-auto">
+      <div class="al-search-box d-none d-lg-block">
+        <form action="{{ route('search') }}" method="GET" class="al-search-form" autocomplete="off">
+          <input
+            type="text"
+            name="search"
+            class="al-search-input"
+            placeholder="Search products..."
+            value="{{ request()->search }}"
+          >
+          <button type="submit" class="al-search-btn" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        <div class="al-search-results"></div>
+      </div>
+      <a href="{{ route('pageView', 'request-quotation') }}" class="btn-al-primary"> Request a Quotation </a>
+    </div>
 </div>
 
 <div class="al-nav-backdrop"></div>
@@ -82,6 +119,98 @@
 </nav>
 
 <style>
+  /* ---- Right side: search + CTA ---- */
+  .al-nav-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .al-search-box{
+    position:relative;
+    width:220px;
+  }
+  .al-search-form{
+    display:flex;
+    align-items:center;
+    background:var(--al-bg-soft, #f6f8f7);
+    border:1px solid var(--al-border, #e5e9e7);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .al-search-input{
+    flex:1 1 0%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    padding:.55rem .8rem;
+    font-size:.85rem;
+    color:var(--al-text, #1f2d2a);
+  }
+  .al-search-btn{
+    flex:0 0 auto;
+    border:0;
+    background:transparent;
+    color:var(--al-muted, #6c7a76);
+    width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:color .2s ease;
+  }
+  .al-search-btn:hover{ color:var(--al-green, #0f7a5c); }
+  .al-search-results{
+    position:absolute;
+    top:calc(100% + 8px);
+    left:0; right:0;
+    background:#fff;
+    border:1px solid var(--al-border, #e5e9e7);
+    border-radius:8px;
+    box-shadow:0 14px 30px rgba(0,0,0,.12);
+    max-height:70vh;
+    overflow-y:auto;
+    z-index:1030;
+    display:none;
+  }
+  .al-search-results.is-open{ display:block; }
+  .al-search-results .SearchResult-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:.6rem .8rem;
+    border-bottom:1px solid var(--al-border, #e5e9e7);
+    color:var(--al-text, #1f2d2a);
+  }
+  .al-search-results .SearchResult-item:last-child{ border-bottom:0; }
+  .al-search-results .SearchResult-item:hover{ background:var(--al-bg-soft, #f6f8f7); }
+  .al-search-results .SearchResult-item img{
+    width:40px; height:40px;
+    object-fit:contain;
+    flex-shrink:0;
+    border-radius:4px;
+    background:var(--al-bg-soft, #f6f8f7);
+  }
+  .al-search-results .SearchResult-name{
+    flex:1 1 auto;
+    min-width:0;
+    font-size:.85rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .al-search-results .SearchResult-price{
+    flex-shrink:0;
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--al-green, #0f7a5c);
+  }
+  .al-search-results .SearchResult-empty,
+  .al-search-results .SearchResult-loading{
+    padding:.9rem .8rem;
+    font-size:.85rem;
+    color:var(--al-muted, #6c7a76);
+    text-align:center;
+  }
+
   .al-nav-backdrop{
     position:fixed; inset:0;
     background:rgba(6,26,21,.5);
@@ -95,6 +224,40 @@
   @media (min-width: 992px){
     .al-nav-backdrop,
     .al-nav-head{ display:none !important; }
+
+    /* ---- Give the navbar room so items never wrap on laptop widths ---- */
+    .navbar-al .container{
+      max-width:1320px;
+    }
+    .navbar-al #mainNav.navbar-collapse{
+      flex-wrap:nowrap;
+    }
+    .navbar-al .navbar-nav{
+      flex-wrap:nowrap;
+    }
+    .navbar-al .navbar-nav .nav-link{
+      white-space:nowrap;
+    }
+    .al-nav-right{
+      flex-shrink:0;
+    }
+
+    /* ---- Tighter spacing only in the narrow lg range (992-1199px) ---- */
+    @media (max-width: 1199.98px){
+      .navbar-al .navbar-nav .nav-link{
+        padding:10px 10px !important;
+        font-size:.86rem !important;
+      }
+      .navbar-al .navbar-nav{
+        margin-left:.5rem !important;
+      }
+      .al-nav-right{
+        gap:10px;
+      }
+      .al-search-box{
+        width:150px;
+      }
+    }
 
     /* ---- Desktop hover dropdown ---- */
     .navbar-al .navbar-nav .nav-item.dropdown{ position:relative; }
@@ -316,6 +479,30 @@
       margin:20px 20px 0;
       padding:.8rem 1rem;
     }
+
+    /* ---- Right side (search + CTA) in drawer ---- */
+    #mainNav .al-nav-right{
+      flex-direction:column;
+      align-items:stretch;
+      gap:0;
+      padding:0 20px;
+    }
+    #mainNav .al-nav-right .btn-al-primary{ margin:16px 0 0; }
+
+    /* ---- Compact search bar between logo and hamburger ---- */
+    .navbar-al .navbar-brand img{ max-height:38px; width:auto; }
+    .al-mobile-search{
+      flex:1 1 0%;
+      min-width:0;
+      margin:0 10px;
+    }
+    .al-mobile-search .al-search-box{ width:100%; }
+    .al-mobile-search .al-search-input{ font-size:.8rem; padding:.5rem .6rem; }
+    .al-mobile-search .al-search-btn{ width:34px; height:34px; }
+    .al-mobile-search .al-search-results{
+      left:-10px;
+      right:-10px;
+    }
   }
 </style>
 
@@ -382,7 +569,7 @@
 
     /* Close drawer when a real link is tapped */
     nav.addEventListener('click', function (e) {
-      if (e.target.closest('a.dropdown-item, a.nav-link:not(.dropdown-toggle), a.btn-al-primary')) closeNav();
+      if (e.target.closest('a.dropdown-item, a.nav-link:not(.dropdown-toggle), a.btn-al-primary, .SearchResult-item')) closeNav();
     });
 
     window.addEventListener('resize', function () {
@@ -392,6 +579,71 @@
           el.classList.remove('is-expanded');
         });
       }
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var boxes = document.querySelectorAll('.al-search-box');
+    if (!boxes.length) return;
+
+    boxes.forEach(function (box) {
+      var input   = box.querySelector('.al-search-input');
+      var results = box.querySelector('.al-search-results');
+      if (!input || !results) return;
+
+      var timer      = null;
+      var controller = null;
+
+      function openResults () { results.classList.add('is-open'); }
+      function closeResults () { results.classList.remove('is-open'); }
+
+      function runSearch (term) {
+        if (controller) controller.abort();
+        controller = new AbortController();
+
+        results.innerHTML = '<div class="SearchResult-loading">Searching...</div>';
+        openResults();
+
+        fetch('{{ route('headerSearch') }}?search=' + encodeURIComponent(term), {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          signal: controller.signal
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            results.innerHTML = data.html;
+            openResults();
+          })
+          .catch(function (err) {
+            if (err.name !== 'AbortError') closeResults();
+          });
+      }
+
+      input.addEventListener('input', function () {
+        var term = input.value.trim();
+        clearTimeout(timer);
+
+        if (term.length < 2) {
+          closeResults();
+          results.innerHTML = '';
+          return;
+        }
+
+        timer = setTimeout(function () { runSearch(term); }, 300);
+      });
+
+      input.addEventListener('focus', function () {
+        if (results.innerHTML.trim() !== '' && input.value.trim().length >= 2) openResults();
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!box.contains(e.target)) closeResults();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeResults();
+      });
     });
   })();
 </script>

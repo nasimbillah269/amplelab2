@@ -1,21 +1,11 @@
 <div class="SearchResult">
-    <ul>
-        @foreach($products as $product)
-        <li>
-            <a href="{{route('productView',$product->slug?:Str::slug($product->name))}}" >
-            <div class="row">
-                <div class="col-2" style="text-align: center;">
-                    <img src="{{assetUrl($product->image())}}" alt="Search Product">
-                </div>
-                <div class="col-8">
-                    <p>{{Str::limit($product->name,60)}}</p>
-                </div>
-                <div class="col-2" style="text-align: end;">
-                    <span>{{priceFullFormat($product->final_price)}}</span>
-                </div>
-            </div>
-            </a>
-        </li>
-        @endforeach
-    </ul>
+    @forelse($products as $product)
+    <a href="{{route('productView',$product->slug?:Str::slug($product->name))}}" class="SearchResult-item">
+        <img src="{{assetUrl($product->image())}}" alt="{{$product->name}}">
+        <span class="SearchResult-name">{{Str::limit($product->name,60)}}</span>
+        <span class="SearchResult-price">{{priceFullFormat($product->final_price)}}</span>
+    </a>
+    @empty
+    <div class="SearchResult-empty">No product found</div>
+    @endforelse
 </div>

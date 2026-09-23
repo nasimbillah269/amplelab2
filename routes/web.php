@@ -18,6 +18,7 @@ Route::get('/image-view',[WelcomeController::class,'imageView'])->name('imageVie
 Route::get('/image/{template?}/{image?}',[WelcomeController::class,'imageView2'])->name('imageView2');
 Route::get('/sitemap.xml',[WelcomeController::class,'siteMapXml'])->name('siteMapXml');
 Route::get('/search',[WelcomeController::class,'search'])->name('search');
+Route::get('/header-search',[WelcomeController::class,'headerSearch'])->name('headerSearch');
 Route::post('/contact-mail',[WelcomeController::class,'contactMail'])->name('contactMail');
 Route::post('/request-product-submit',[WelcomeController::class,'requestProductSubmit'])->name('requestProductSubmit');
 Route::post('/enquery-send/{slug}',[WelcomeController::class,'inquerySend'])->name('inquerySend');

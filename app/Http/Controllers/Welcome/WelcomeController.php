@@ -885,6 +885,36 @@ class WelcomeController extends Controller
 
     }
 
+    public function headerSearch(Request $r){
+
+      $products =collect();
+
+      if(trim((string) $r->search) !== ''){
+        $products =Post::where('type',2)->where('status','active')
+          ->where(function($q) use($r){
+            $q->where('name','LIKE','%'.$r->search.'%');
+            $q->orWhereHas('productCategories',function($qq) use($r){
+                    $qq->where('name','LIKE','%'.$r->search.'%');
+                });
+            $q->orWhereHas('brand',function($qq) use($r){
+                    $qq->where('name','LIKE','%'.$r->search.'%');
+                });
+          })
+          ->whereDate('created_at','<=',date('Y-m-d'))
+          ->latest()
+          ->take(8)
+          ->get();
+      }
+
+      $html =View(welcomeTheme().'products.includes.searchProduct',compact('products'))->render();
+
+      return Response()->json([
+            'html' => $html,
+            'count' => $products->count(),
+          ]);
+
+    }
+
     public function subscribe(Request $r){
 
       if(filter_var($r->email, FILTER_VALIDATE_EMAIL)){
