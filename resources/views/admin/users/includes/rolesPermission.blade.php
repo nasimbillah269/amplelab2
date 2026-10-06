@@ -404,6 +404,10 @@
                  <label>
                     <input type="checkbox" name="permission[appsSetting][social]" @isset(json_decode($role->permission, true)['appsSetting']['social']) checked @endisset > Social Setting</label>
              </td>
+             <td>
+                <label>
+                    <input type="checkbox" name="permission[appsSetting][contact]" @isset(json_decode($role->permission, true)['appsSetting']['contact']) checked @endisset > Contact Setting</label>
+             </td>
          </tr>
          
 

@@ -144,20 +144,33 @@
 </section>
 
 <!-- ===== Brands ===== -->
+@if($brands->count())
 <section>
+
   <div class="container text-center">
     <h2 class="fw-bold mb-1" style="font-size:1.6rem;">We Work With International Brands</h2>
     <p class="text-muted mb-4">Delivering trusted quality through global partnerships</p>
     <div class="row g-3 justify-content-center">
-      <div class="col-6 col-md-2"><div class="brand-box text-danger" style="font-family:Georgia,serif;">SEW<br><small class="text-muted fw-normal" style="font-size:.65rem;">EURODRIVE</small></div></div>
-      <div class="col-6 col-md-2"><div class="brand-box" style="background:#0f7a3d; color:#fff;">K&amp;H</div></div>
-      <div class="col-6 col-md-2"><div class="brand-box"><i class="fa-solid fa-square me-1"></i>LUTRON</div></div>
-      <div class="col-6 col-md-2"><div class="brand-box text-danger" style="font-family:Georgia,serif;">WLKATA</div></div>
-      <div class="col-6 col-md-2"><div class="brand-box"><i class="fa-solid fa-handshake me-2"></i>And Many More...</div></div>
+      @foreach($brands as $brand)
+      <div class="col-6 col-md-2">
+        <a href="{{ route('productBrand', $brand->slug ?: 'no-title') }}" class="brand-box text-decoration-none" style="font-family:Georgia,serif;">
+          @if($brand->imageFile)
+          <img src="{{ assetUrl($brand->image()) }}" alt="{{ $brand->name }}" style="max-height:64px; max-width:100%; object-fit:contain;">
+          @else
+          {{ $brand->name }}
+          @endif
+        </a>
+      </div>
+      @endforeach
     </div>
-    <a href="#" class="btn-al-primary d-inline-block mt-4">View All Brands</a>
+    @php($brandsPage = pageTemplate('All Brands'))
+    @if($brandsPage)
+    <a href="{{ route('pageView', $brandsPage->slug) }}" class="btn-al-primary d-inline-block mt-4">View All Brands</a>
+    @endif
   </div>
+
 </section>
+@endif
 
 <!-- ===== Stats ===== -->
 <div class="stats-bar">

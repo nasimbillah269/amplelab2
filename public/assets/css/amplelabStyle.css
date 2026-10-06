@@ -637,7 +637,7 @@
 }
 
 .btn-alab:hover {
-  background-color: var(--alab-accent);
+  background-color: var(--alab-accent, #0f7a5c);
   color: #fff;
 }
 

@@ -14,6 +14,18 @@
 </style>
 @endpush @section('contents')
 
+@php
+  $splitLines = fn($text) => array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', (string) $text)), 'strlen'));
+  $contactAddress = general()->contact_address ?: general()->address_one;
+  $contactPhones  = $splitLines(general()->contact_phones ?: general()->mobile);
+  $contactEmails  = $splitLines(general()->contact_emails ?: general()->email);
+  $contactHours   = $splitLines(general()->contact_hours);
+  $contactWebsite = general()->website;
+  $directionsUrl  = general()->contact_directions_url;
+  $mapEmbedUrl    = general()->contact_map_embed_url
+      ?: ($contactAddress ? 'https://www.google.com/maps?q='.urlencode(str_replace(["\r", "\n"], ' ', $contactAddress)).'&output=embed' : null);
+@endphp
+
 {{--<div class="pageTitleHeader">
     <div class="container">
         <h1>{{$page->name}}</h1>
@@ -279,45 +291,55 @@
         <div class="contact-card info-list">
           <h4 class="mb-4">Contact Information</h4>
 
+          @if($contactAddress)
           <div class="info-row">
             <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
             <div>
               <h6>Our Office</h6>
-              <p>House # 12, Road # 5, Mirpur DOHS<br>Dhaka-1216, Bangladesh</p>
+              <p>{!! nl2br(e($contactAddress)) !!}</p>
             </div>
           </div>
+          @endif
 
+          @if(count($contactPhones))
           <div class="info-row">
             <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
             <div>
               <h6>Phone &amp; WhatsApp</h6>
-              <p>+880 1712 345 678<br>+880 1912 345 678</p>
+              <p>{!! implode('<br>', array_map('e', $contactPhones)) !!}</p>
             </div>
           </div>
+          @endif
 
+          @if(count($contactEmails))
           <div class="info-row">
             <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
             <div>
               <h6>Email Us</h6>
-              <p>info@amplelab.com<br>sales@amplelab.com</p>
+              <p>{!! implode('<br>', array_map('e', $contactEmails)) !!}</p>
             </div>
           </div>
+          @endif
 
+          @if(count($contactHours))
           <div class="info-row">
             <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
             <div>
               <h6>Office Hours</h6>
-              <p>Saturday - Thursday<br>9:00 AM - 6:00 PM<br>Friday: Closed</p>
+              <p>{!! implode('<br>', array_map('e', $contactHours)) !!}</p>
             </div>
           </div>
+          @endif
 
+          @if($contactWebsite)
           <div class="info-row">
             <div class="info-icon"><i class="fa-solid fa-globe"></i></div>
             <div>
               <h6>Website</h6>
-              <p>www.amplelab.com</p>
+              <p>{{ $contactWebsite }}</p>
             </div>
           </div>
+          @endif
         </div>
       </div>
     </div>
@@ -326,32 +348,42 @@
     <div class="row g-4 mt-1">
       <div class="col-lg-4">
         <div class="map-panel">
-          <h4>Find Us On Map</h4>
-          <p class="sub mb-4" style="font-size:14px;">Visit our office for product demonstration, technical discussion or any inquiries.</p>
+          <h4>{{ general()->contact_map_title ?: 'Find Us On Map' }}</h4>
+          <p class="sub mb-4" style="font-size:14px;">{{ general()->contact_map_text ?: 'Visit our office for product demonstration, technical discussion or any inquiries.' }}</p>
 
+          @if(count($contactPhones))
           <div class="d-flex align-items-center gap-3 mb-3">
             <i class="fa-solid fa-phone text-success"></i>
-            <span>+880 1712 345 678</span>
+            <span>{{ $contactPhones[0] }}</span>
           </div>
+          @endif
+          @if(count($contactEmails))
           <div class="d-flex align-items-center gap-3 mb-3">
             <i class="fa-solid fa-envelope text-success"></i>
-            <span>info@amplelab.com</span>
+            <span>{{ $contactEmails[0] }}</span>
           </div>
+          @endif
+          @if($contactAddress)
           <div class="d-flex align-items-start gap-3 mb-4">
             <i class="fa-solid fa-location-dot text-success mt-1"></i>
-            <span>House # 12, Road # 5, Mirpur DOHS, Dhaka-1216, Bangladesh</span>
+            <span>{!! nl2br(e($contactAddress)) !!}</span>
           </div>
+          @endif
 
-          <a href="#" class="btn-alab">Get Directions <i class="fa-solid fa-arrow-right"></i></a>
+          @if($directionsUrl)
+          <a href="{{ $directionsUrl }}" target="_blank" rel="noopener" class="btn-alab">Get Directions <i class="fa-solid fa-arrow-right"></i></a>
+          @endif
         </div>
       </div>
+      @if($mapEmbedUrl)
       <div class="col-lg-8">
         <div class="map-embed">
           <iframe
-            src="https://www.google.com/maps?q=Mirpur+DOHS,+Dhaka&output=embed"
+            src="{{ $mapEmbedUrl }}"
             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
+      @endif
     </div>
   </div>
 </section>

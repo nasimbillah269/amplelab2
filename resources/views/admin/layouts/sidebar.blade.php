@@ -267,7 +267,8 @@
          isset(json_decode($roles->permission, true)['appsSetting']['general']) ||  
          isset(json_decode($roles->permission, true)['appsSetting']['mail']) ||
          isset(json_decode($roles->permission, true)['appsSetting']['sms']) ||
-         isset(json_decode($roles->permission, true)['appsSetting']['social']) 
+         isset(json_decode($roles->permission, true)['appsSetting']['social']) ||
+         isset(json_decode($roles->permission, true)['appsSetting']['contact'])
          )
          <li class=" navigation-header"><span style="color: #000000;font-weight: bold;">Apps Setting </span><i class=" feather icon-minus" data-toggle="tooltip" data-placement="right" data-original-title="Others"></i>
          </li>
@@ -279,6 +280,15 @@
             <a href="{{route('admin.setting','general')}}">
               <i class="fa fa-cog"></i>
               <span class="menu-title" >General Setting</span>
+            </a>
+         </li>
+         @endisset
+
+         @isset(json_decode($roles->permission, true)['appsSetting']['contact'])
+          <li class=" nav-item {{Request::is('admin/setting/contact*')? 'active' : ''}}">
+            <a href="{{route('admin.setting','contact')}}">
+              <i class="fa-solid fa-address-book"></i>
+              <span class="menu-title">Contact Setting</span>
             </a>
          </li>
          @endisset

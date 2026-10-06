@@ -45,8 +45,8 @@
             <a href="{{ route('productView',$product->slug?:Str::slug($product->name)) }}" class="title">{{ $product->name }}</a>
           </div>
           <div class="link-row">
-            <a href="#">Specification</a>
-            <a href="#">Catalog</a>
+            <a href="{{ route('productView',$product->slug?:Str::slug($product->name)) }}#infoDetailsDiv">Specification</a>
+            <a href="{{ route('productView',$product->slug?:Str::slug($product->name)) }}">Catalog</a>
           </div>
           @if($product->offerPrice() > 0)
             <div class="price-btn price-value">

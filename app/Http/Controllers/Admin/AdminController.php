@@ -2797,6 +2797,8 @@ public function brandsAction(Request $r,$action,$id=null){
       return view(adminTheme().'setting.document',compact('general','type'));
     }else if($type=='support'){
       return view(adminTheme().'setting.support',compact('general','type'));
+    }else if($type=='contact'){
+      return view(adminTheme().'setting.contact',compact('general','type'));
     }else if($type=='logo'){
 
       if(File::exists($general->logo)){
@@ -3118,7 +3120,47 @@ public function brandsAction(Request $r,$action,$id=null){
 
     }
 
-    
+    if($type=='contact'){
+
+        $check = $r->validate([
+            'contact_address' => 'nullable|max:500',
+            'contact_phones' => 'nullable|max:1000',
+            'contact_emails' => 'nullable|max:1000',
+            'contact_hours' => 'nullable|max:1000',
+            'contact_map_embed_code' => 'nullable|max:5000',
+            'contact_directions_url' => 'nullable|url|max:500',
+            'contact_website' => 'nullable|max:100',
+            'contact_map_title' => 'nullable|max:150',
+            'contact_map_text' => 'nullable|max:500',
+        ]);
+
+        $mapSrc = null;
+        $mapCode = trim((string) $r->contact_map_embed_code);
+        if($mapCode !== ''){
+            $src = preg_match('/src=["\']([^"\']+)["\']/i', $mapCode, $m) ? $m[1] : $mapCode;
+            $src = html_entity_decode($src);
+            if(!preg_match('#^https://(www\.)?google\.[a-z.]+/maps#i', $src) && !preg_match('#^https://maps\.google\.[a-z.]+/#i', $src)){
+                return back()->withErrors(['contact_map_embed_code' => 'Paste the Google Maps embed code (the iframe code), or its embed URL.'])->withInput();
+            }
+            $mapSrc = $src;
+        }
+
+        $general->contact_address=$r->contact_address;
+        $general->contact_phones=$r->contact_phones;
+        $general->contact_emails=$r->contact_emails;
+        $general->contact_hours=$r->contact_hours;
+        $general->contact_map_embed_url=$mapSrc;
+        $general->contact_directions_url=$r->contact_directions_url;
+        $general->website=$r->contact_website;
+        $general->contact_map_title=$r->contact_map_title;
+        $general->contact_map_text=$r->contact_map_text;
+        $general->save();
+
+        Session()->flash('success','Contact Page Updated Are Successfully Done!');
+
+    }
+
+
     return redirect()->route('admin.setting',$type);
 
 

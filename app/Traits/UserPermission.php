@@ -35,7 +35,8 @@ trait UserPermission{
 				empty(json_decode($activerole->permission, true)['appsSetting']['general']) && \Request::is('admin/setting/favicon*') ||
 				empty(json_decode($activerole->permission, true)['appsSetting']['mail']) && \Request::is('admin/setting/mail*') ||
 				empty(json_decode($activerole->permission, true)['appsSetting']['sms']) && \Request::is('admin/setting/sms*') ||
-				empty(json_decode($activerole->permission, true)['appsSetting']['social']) && \Request::is('admin/setting/social*')
+				empty(json_decode($activerole->permission, true)['appsSetting']['social']) && \Request::is('admin/setting/social*') ||
+				empty(json_decode($activerole->permission, true)['appsSetting']['contact']) && \Request::is('admin/setting/contact*')
 
 
 			){

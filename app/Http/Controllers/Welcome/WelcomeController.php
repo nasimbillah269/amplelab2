@@ -656,7 +656,10 @@ class WelcomeController extends Controller
 
       //About Us Page
       if($page->template=='About Us'){
-        return view(welcomeTheme().'pages.aboutUs',compact('page'));
+        $brands =Attribute::where('type',2)->where('status','active')->where('fetured',true)
+                ->orderBy('name')
+                ->limit(12)->get(['id','name','slug']);
+        return view(welcomeTheme().'pages.aboutUs',compact('page','brands'));
       }
       
       //About Us Page
