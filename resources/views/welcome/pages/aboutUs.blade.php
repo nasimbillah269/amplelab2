@@ -172,37 +172,6 @@
 </section>
 @endif
 
-<!-- ===== Stats ===== -->
-<div class="stats-bar">
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-6 col-lg-3">
-        <div class="stat-item">
-          <i class="fa-solid fa-building"></i>
-          <div><div class="num">500+</div><div class="lbl">Projects Completed</div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="stat-item">
-          <i class="fa-solid fa-users"></i>
-          <div><div class="num">1000+</div><div class="lbl">Happy Customers</div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="stat-item">
-          <i class="fa-solid fa-cubes"></i>
-          <div><div class="num">2000+</div><div class="lbl">Products</div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3">
-        <div class="stat-item">
-          <i class="fa-solid fa-award"></i>
-          <div><div class="num">10+</div><div class="lbl">Years of Experience</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
