@@ -32,7 +32,7 @@
   <div class="container">
     <div class="row align-items-center gy-5">
       <div class="col-lg-6">
-        <div class="eyebrow">About Us</div>
+        <!-- <div class="eyebrow">About Us</div> -->
         <h1 class="mt-2">Empowering Practical Education Through Quality Lab Solutions</h1>
         <div class="hero-underline"></div>
         <p class="mt-4 mb-4">
@@ -41,17 +41,17 @@
           organizations and industries across Bangladesh. We provide complete laboratory
           solutions to support skill development, innovation and engineering excellence.
         </p>
-        <a href="#" class="btn-alab">Learn More About Us <i class="fa-solid fa-arrow-right"></i></a>
+        <!-- <a href="#" class="btn-alab">Learn More About Us <i class="fa-solid fa-arrow-right"></i></a> -->
       </div>
       <div class="col-lg-6">
         <div class="about-media">
           <img src="{{assetUrl(assetLink().'/images/ample/about-page.webp')}}" alt="Laboratory equipment">
-          <div class="badge-float">
+          <!-- <div class="badge-float">
             <div class="icon-box"><i class="fa-solid fa-building-columns"></i></div>
             <div class="fw-bold" style="font-size:14.5px;">Trusted Lab Solutions</div>
             <div class="text-muted" style="font-size:13px;">Since 2015</div>
             <div class="line"></div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

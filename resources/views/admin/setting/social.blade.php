@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-12 form-group">
-                    <label for="twitter_link">Tiktok Link</label>
+                    <label for="twitter_link">Twitter X Link</label>
                     <input type="text" name="twitter_link" value="{{ $general->twitter_link }}" placeholder="Tiktok Link" class="form-control {{$errors->has('twitter_link')?'error':''}}" />
                     @if ($errors->has('twitter_link'))
                     <p style="color: red; margin: 0; font-size: 10px;">{{ $errors->first('twitter_link') }}</p>
