@@ -135,7 +135,7 @@ class WelcomeController extends Controller
       ->limit(8)
       ->get(['id','name','slug','final_price','regular_price','variation_status','created_at','discount','discount_type','brand_id','stock_status']);
       
-      $homeCategories =Attribute::latest()->where('status','active')->where('fetured',true)->where('type',0)->get();
+      $homeCategories =Attribute::latest()->where('status','active')->where('fetured',true)->where('type',0)->limit(18)->get();
       
 
       $latestPosts =Post::latest()->where('type',1)
@@ -577,7 +577,6 @@ class WelcomeController extends Controller
         $homeCategories = Attribute::latest()->where('type',0)
       ->where('status','active')
       ->whereDate('created_at','<=',Carbon::now())
-      ->limit(12)
       ->get(['id','name','slug','addedby_id','created_at']);
       
         return view(welcomeTheme().'pages.categories',compact('page','homeCategories'));
